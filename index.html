@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K M Lochan Harishwar | AI Engineer</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-color: #000000;
+            --card-bg: #0a0a0a;
+            --primary: #ff0022; /* Aggressive Red */
+            --primary-dim: #5c000c;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --grid-line: rgba(255, 0, 34, 0.1);
+            --font-display: 'Oswald', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: crosshair; /* Custom cursor feel */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        /* Glitch Text Effect */
+        .glitch {
+            position: relative;
+            color: var(--text-main);
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 red;
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 blue; /* Kept slight blue for chromatic aberration or remove for strict red */
+            text-shadow: -1px 0 white;
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(14px, 9999px, 122px, 0); }
+            5% { clip: rect(68px, 9999px, 8px, 0); }
+            10% { clip: rect(104px, 9999px, 98px, 0); }
+            100% { clip: rect(32px, 9999px, 63px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(65px, 9999px, 109px, 0); }
+            100% { clip: rect(11px, 9999px, 25px, 0); }
+        }
+
+        /* Cyber Button */
+        .btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: transparent;
+            color: var(--primary);
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 1px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: black;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid var(--primary);
+            z-index: 1000;
+            padding: 1.5rem 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: white;
+            letter-spacing: 2px;
+        }
+
+        .logo span { color: var(--primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+
+        .hamburger {
+            display: none;
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding-top: 80px;
+        }
+
+        /* Decorative Grid Overlay */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 20%, #000 90%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 1000px;
+            text-align: left;
+            border-left: 2px solid var(--primary);
+            padding-left: 3rem;
+        }
+
+        .status-line {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status-line::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 5rem;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            border-top: 1px solid #333;
+            padding-top: 1rem;
+        }
+
+        /* --- SECTIONS --- */
+        section { padding: 8rem 0; position: relative; }
+        
+        .section-header {
+            margin-bottom: 5rem;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            border-bottom: 1px solid #333;
+            padding-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            line-height: 1;
+            text-transform: uppercase;
+            -webkit-text-stroke: 1px white;
+            color: transparent;
+        }
+        
+        .section-header h2 span {
+            color: var(--primary);
+            -webkit-text-stroke: 0;
+        }
+
+        .section-number {
+            font-size: 4rem;
+            font-family: var(--font-display);
+            color: #111;
+            font-weight: bold;
+        }
+
+        /* --- ABOUT --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+
+        .terminal-box {
+            border: 1px solid #333;
+            padding: 2rem;
+            background: rgba(255,255,255,0.02);
+            position: relative;
+        }
+
+        .terminal-box::before {
+            content: 'sys_info.log';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #000;
+            padding: 0 10px;
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+
+        .stat-card {
+            border: 1px solid #333;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            background: var(--primary-dim);
+        }
+
+        .stat-card h3 { font-family: var(--font-display); color: white; }
+        .stat-card i { color: var(--primary); font-size: 1.5rem; }
+
+        /* --- AI HUB (Cards) --- */
+        .ai-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2px; /* Tight gap for grid look */
+            background: #333; /* Border color via gap */
+            border: 1px solid #333;
+        }
+
+        .feature-card {
+            background: #000;
+            padding: 3rem;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            background: #050505;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            border-bottom: 2px solid var(--primary);
+            border-right: 2px solid var(--primary);
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover::after { opacity: 1; }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px var(--primary);
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        /* --- CERTIFICATIONS --- */
+        .cert-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .cert-item {
+            flex: 1 1 300px;
+            border: 1px solid #333;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cert-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background: var(--primary);
+            transform: scaleY(0);
+            transition: 0.3s;
+        }
+
+        .cert-item:hover::before { transform: scaleY(1); }
+
+        .cert-icon {
+            font-size: 2rem;
+            color: #444;
+            transition: 0.3s;
+        }
+
+        .cert-item:hover .cert-icon { color: white; }
+
+        .cert-info h4 {
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            font-size: 1.1rem;
+        }
+
+        .cert-info span {
+            color: var(--primary);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        /* --- SKILLS --- */
+        .skills-wrapper {
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+            padding: 4rem 0;
+            position: relative;
+        }
+        
+        .skills-wrapper::before {
+            content: 'TECHNICAL_ARSENAL //';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            padding: 0 1rem;
+            color: #333;
+            font-family: var(--font-display);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            padding: 0.8rem 2rem;
+            border: 1px solid #333;
+            background: #000;
+            color: #888;
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            transition: 0.2s;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .tag:hover, .tag.highlight {
+            border-color: var(--primary);
+            color: white;
+            background: rgba(255, 0, 34, 0.05);
+            box-shadow: 0 0 15px rgba(255, 0, 34, 0.1);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--primary);
+            padding: 4rem 0;
+            background: #000;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .social-btn {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: white;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 5px;
+        }
+        
+        .social-btn:hover {
+            color: var(--primary);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .section-header h2 { font-size: 3rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Lochan<span>.AI</span></div>
+                <ul class="nav-links">
+                    <li><a href="#home">/// Home</a></li>
+                    <li><a href="#about">/// About</a></li>
+                    <li><a href="#ai">/// Intel</a></li>
+                    <li><a href="#certifications">/// Certs</a></li>
+                </ul>
+                <div class="hamburger" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <div class="status-line">SYSTEM ONLINE // PORTFOLIO V2.0</div>
+            <h1 class="glitch" data-text="AI ENGINEER">AI ENGINEER</h1>
+            <h1 style="font-size: 2.5rem; color: white;">K M LOCHAN HARISHWAR</h1>
+            <p>SPECIALIZED IN GENERATIVE AI WORKFLOWS, PROMPT ARCHITECTURE, AND VIBE CODING.</p>
+            <a href="#contact" class="btn">Initiate Contact</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>About <span>Me</span></h2>
+                <div class="section-number">01</div>
+            </div>
+            <div class="about-grid">
+                <div class="terminal-box">
+                    <p style="color: var(--primary); margin-bottom: 1rem;">> ACCESSING USER_PROFILE...</p>
+                    <p>I am a B.Tech Computer Science student at <strong>Dayananda Sagar University</strong>. I don't just write code; I design intelligence.</p>
+                    <br>
+                    <p>My focus is on the "Why" and "How" of Artificial Intelligence. From building complex Agents to optimizing LLM outputs through advanced Prompt Engineering, I bridge the gap between theoretical models and deployed solutions.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <h3>DSU</h3>
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="stat-card">
+                        <h3>10+ Certs</h3>
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Vibe Coder</h3>
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Hub Section -->
+    <section id="ai">
+        <div class="container">
+            <div class="section-header">
+                <h2>AI <span>Nexus</span></h2>
+                <div class="section-number">02</div>
+            </div>
+            <div class="ai-grid">
+                <div class="feature-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>Deep Concepts</h3>
+                    <p>Analysis of Narrow AI vs AGI. Neural Network architecture understanding. Decoding the "Black Box".</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-network-wired"></i>
+                    <h3>Workflow Arch</h3>
+                    <p>Designing end-to-end automated pipelines. Chaining LLMs for complex task execution and data processing.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-terminal"></i>
+                    <h3>Prompt Eng</h3>
+                    <p>Advanced context injection. Few-shot prompting. Optimizing token usage for Gemini, GPT, and Claude models.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications">
+        <div class="container">
+            <div class="section-header">
+                <h2>Credential <span>Log</span></h2>
+                <div class="section-number">03</div>
+            </div>
+            <div class="cert-container">
+                <!-- Oracle -->
+                <div class="cert-item">
+                    <div class="cert-icon"><i class="fas fa-server"></i></div>
+                    <div class="cert-info">
+                        <h4>OCI AI Foundations</h4>
+                        <span>ORACLE CORPORATION</span>
+                    </div>
+                </div>
+                <div class="cert-item">
+                    <div class="cert-icon"><i class="fas fa-database"></i></div>
+                    <div class="cert-info">
+                        <h4>OCI Cloud ERP</h4>
+                        <span>ORACLE CORPORATION</span>
+                    </div>
+                </div>
+                <!-- Microsoft -->
+                <div class="cert-item">
+                    <div class="cert-icon"><i class="fab fa-microsoft"></i></div>
+                    <div class="cert-info">
+                        <h4>Intro to Gen AI</h4>
+                        <span>MICROSOFT</span>
+                    </div>
+                </div>
+                <div class="cert-item">
+                    <div class="cert-icon"><i class="fab fa-microsoft"></i></div>
+                    <div class="cert-info">
+                        <h4>AI Concepts</h4>
+                        <span>MICROSOFT</span>
+                    </div>
+                </div>
+                <!-- Google -->
+                <div class="cert-item">
+                    <div class="cert-icon"><i class="fab fa-google"></i></div>
